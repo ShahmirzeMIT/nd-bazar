@@ -67,9 +67,17 @@ const ProductForm = ({
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
     try {
+      // Fix: Ensure all required fields from Product interface are explicitly included
       const productData: Product = {
         id: initialData?.id || `product-${Date.now()}`,
-        ...values,
+        name: values.name,
+        price: values.price,
+        currency: values.currency,
+        category: values.category,
+        description: values.description,
+        image: values.image,
+        inStock: values.inStock,
+        tags: values.tags,
       };
       
       onSubmit(productData);
