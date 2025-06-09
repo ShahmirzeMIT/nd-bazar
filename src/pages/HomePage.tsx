@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 import { useProducts } from "@/context/ProductContext";
 import ProductCard from "@/components/ProductCard";
 import { categories } from "@/data/mockData";
-
+import Sebet from '@/assets/images/yumurta.jpg'
+import Sebet2 from '@/assets/images/pendir.jpeg'
+import Sebet3 from '@/assets/images/yag.jpeg'
 const HomePage = () => {
   const { products } = useProducts();
   
@@ -39,21 +41,21 @@ const HomePage = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="aspect-square bg-farm-accent rounded-lg overflow-hidden">
                   <img
-                    src="/placeholder.svg"
+                    src={Sebet}
                     alt="Təzə məhsullar"
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="aspect-square bg-farm-brown-light rounded-lg overflow-hidden">
                   <img
-                    src="/placeholder.svg"
+                    src={Sebet2}
                     alt="Kənd məhsulları"
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="aspect-square bg-farm-green-light rounded-lg overflow-hidden">
                   <img
-                    src="/placeholder.svg"
+                    src={Sebet3}
                     alt="Yumurta və süd"
                     className="w-full h-full object-cover"
                   />
