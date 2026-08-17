@@ -38,10 +38,10 @@ const CartItemCard = ({ item }: CartItemCardProps) => {
 
   return (
     <Card
-      className={`mb-4 overflow-hidden transition-all duration-300 ease-in-out ${
+      className={`mb-4 overflow-hidden transition-all duration-300 ease-in-out transform ${
         isRemoving
-          ? "opacity-0 -translate-x-full max-h-0 mb-0 p-0 border-none pointer-events-none"
-          : "opacity-100 translate-x-0 max-h-96"
+          ? "opacity-0 -translate-x-full scale-95 max-h-0 mb-0 p-0 border-none pointer-events-none"
+          : "opacity-100 translate-x-0 scale-100 max-h-96"
       }`}
     >
       <div className="flex flex-col sm:flex-row">
