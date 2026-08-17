@@ -1,4 +1,3 @@
-
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { adminCredentials } from "../data/mockData";
 import { useToast } from "@/components/ui/use-toast";
@@ -12,6 +11,7 @@ interface AuthContextType {
   user: AdminUser | null;
   login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
+  resetPassword: (email: string) => Promise<boolean>;
   isAuthenticated: boolean;
   isAdmin: boolean;
 }
@@ -69,12 +69,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const resetPassword = async (email: string): Promise<boolean> => {
+    // In a real application, this would involve sending a password reset email via API
+    if (email && email.includes("@")) {
+      toast({
+        title: "Şifrə sıfırlama keçidi göndərildi",
+        description: "Şifrənizi sıfırlamaq üçün e-poçt ünvanınızı yoxlayın.",
+      });
+      return true;
+    }
+    
+    toast({
+      variant: "destructive",
+      title: "Xəta baş verdi",
+      description: "Zəhmət olmasa düzgün e-poçt ünvanı daxil edin.",
+    });
+    return false;
+  };
+
   return (
     <AuthContext.Provider
       value={{
         user,
         login,
         logout,
+        resetPassword,
         isAuthenticated: !!user,
         isAdmin: user?.isAdmin || false
       }}
