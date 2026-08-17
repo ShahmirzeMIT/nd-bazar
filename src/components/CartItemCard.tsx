@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus, Minus, Trash } from "lucide-react";
@@ -14,6 +13,7 @@ interface CartItemCardProps {
 const CartItemCard = ({ item }: CartItemCardProps) => {
   const { product, quantity } = item;
   const { updateQuantity, removeItem } = useCart();
+  const [isRemoving, setIsRemoving] = useState(false);
   
   const handleIncrease = () => {
     updateQuantity(product.id, quantity + 1);
@@ -23,20 +23,29 @@ const CartItemCard = ({ item }: CartItemCardProps) => {
     if (quantity > 1) {
       updateQuantity(product.id, quantity - 1);
     } else {
-      removeItem(product.id);
+      handleRemove();
     }
   };
   
   const handleRemove = () => {
-    removeItem(product.id);
+    setIsRemoving(true);
+    setTimeout(() => {
+      removeItem(product.id);
+    }, 300);
   };
   
   const itemTotal = product.price * quantity;
 
   return (
-    <Card className="mb-4 overflow-hidden">
+    <Card
+      className={`mb-4 overflow-hidden transition-all duration-300 ease-in-out ${
+        isRemoving
+          ? "opacity-0 -translate-x-full max-h-0 mb-0 p-0 border-none pointer-events-none"
+          : "opacity-100 translate-x-0 max-h-96"
+      }`}
+    >
       <div className="flex flex-col sm:flex-row">
-        <div className="w-full sm:w-24 h-24 bg-gray-100">
+        <div className="w-full sm:w-24 h-24 bg-gray-100 flex-shrink-0">
           <img
             src={product.image}
             alt={product.name}
@@ -44,10 +53,10 @@ const CartItemCard = ({ item }: CartItemCardProps) => {
           />
         </div>
         
-        <div className="flex flex-1 flex-col p-4">
-          <div className="flex justify-between">
+        <div className="flex flex-1 flex-col p-4 justify-between">
+          <div className="flex justify-between items-start">
             <h3 className="font-semibold">{product.name}</h3>
-            <span className="font-bold text-farm-green">
+            <span className="font-bold text-farm-green transition-all duration-200">
               {formatPrice(product.price)}
             </span>
           </div>
@@ -58,25 +67,29 @@ const CartItemCard = ({ item }: CartItemCardProps) => {
                 onClick={handleDecrease}
                 variant="outline"
                 size="icon"
-                className="h-8 w-8 rounded-full border-farm-green text-farm-green"
+                className="h-8 w-8 rounded-full border-farm-green text-farm-green hover:bg-farm-green hover:text-white transition-colors"
+                disabled={isRemoving}
               >
                 <Minus className="h-3 w-3" />
               </Button>
               
-              <span className="mx-3 w-8 text-center">{quantity}</span>
+              <span className="mx-3 w-8 text-center font-medium transition-all duration-200">
+                {quantity}
+              </span>
               
               <Button
                 onClick={handleIncrease}
                 variant="outline"
                 size="icon"
-                className="h-8 w-8 rounded-full border-farm-green text-farm-green"
+                className="h-8 w-8 rounded-full border-farm-green text-farm-green hover:bg-farm-green hover:text-white transition-colors"
+                disabled={isRemoving}
               >
                 <Plus className="h-3 w-3" />
               </Button>
             </div>
             
             <div className="flex items-center gap-4">
-              <span className="font-semibold">
+              <span className="font-semibold text-lg text-gray-800 transition-all duration-200">
                 {formatPrice(itemTotal)}
               </span>
               
@@ -84,7 +97,8 @@ const CartItemCard = ({ item }: CartItemCardProps) => {
                 onClick={handleRemove}
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 text-red-500 hover:bg-red-50 hover:text-red-600"
+                className="h-8 w-8 text-red-500 hover:bg-red-50 hover:text-red-600 transition-colors"
+                disabled={isRemoving}
               >
                 <Trash className="h-4 w-4" />
               </Button>
